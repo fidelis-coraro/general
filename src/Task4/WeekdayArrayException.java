@@ -15,6 +15,8 @@ public class WeekdayArrayException {
 
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Array index out of bound exception: " + e.getMessage());
+        }catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
 }
