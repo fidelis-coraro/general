@@ -48,8 +48,8 @@ public class IntegerStack {
         integerStack.pop();
 
         // Try to pop from an empty stack (will throw EmptyStackException)
-        // Uncomment the following line to see the exception
-        integerStack.pop();
+        //integerStack.pop();
+        System.out.println("Is the stack empty? " + integerStack.isEmpty());
     }
 }
 

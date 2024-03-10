@@ -28,7 +28,6 @@ public class VoterExample {
             Voter validVoter = new Voter("V123", "Sachin", 25);
 
             // Example of creating a voter with invalid age
-            // Uncomment the following line to see the InvalidAgeException
             Voter invalidVoter = new Voter("V456", "virat", 17);
         } catch (InvalidAgeException e) {
             System.out.println("InvalidAgeException: " + e.getMessage());

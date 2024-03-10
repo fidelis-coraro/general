@@ -6,12 +6,6 @@ class AgeNotWithinRangeException extends Exception {
         super(message);
     }
 }
-class CustomValidationException extends Exception {
-    public CustomValidationException(String message) {
-        super(message);
-    }
-}
-
 
 // Custom exception for invalid name
 class NameNotValidException extends Exception {
@@ -23,12 +17,21 @@ class NameNotValidException extends Exception {
 // Student class with exception handling
 class Student {
     private int rollNo;
-    String name;
-    int age;
+    private String name;
+    private int age;
     private String course;
 
     // Parameterized constructor to initialize values
-    public Student(int rollNo, String name, int age, String course) throws CustomValidationException {
+    public Student(int rollNo, String name, int age, String course) throws AgeNotWithinRangeException, NameNotValidException {
+        // Validate age
+        if (age < 15 || age > 21) {
+            throw new AgeNotWithinRangeException("Age should be between 15 and 21.");
+        }
+
+        // Validate name
+        if (!isValidName(name)) {
+            throw new NameNotValidException("Name should not contain numbers or special symbols.");
+        }
 
         // Assign values to attributes
         this.rollNo = rollNo;
@@ -38,33 +41,30 @@ class Student {
     }
 
     // Helper method to check if the name is valid
-    public boolean isValidName(String name) {
+    private boolean isValidName(String name) {
         return name.matches("[a-zA-Z]+");
     }
 }
 
+
 public class StudentManagementSystem {
     public static void main(String[] args) {
         try {
-            // Example of creating a student with invalid name (contains numbers) and invalid age
-            Student invalidStudent = new Student(2, "JaneDoe", 29, "Mathematics");
+            // Example of creating a student with valid information
+            Student validStudent = new Student(1, "JohnDoe", 20, "Computer Science");
 
-            validateStudent(invalidStudent);
-        } catch (CustomValidationException e) {
-            System.out.println( e.getMessage());
-        }
-    }
+            // Example of creating a student with invalid age (outside the range)
+            Student invalidAgeStudent = new Student(2, "JaneDoe", 22, "Mathematics");
 
-    private static void validateStudent(Student student) throws CustomValidationException {
-        if (!student.isValidName(student.name) || student.age < 15 || student.age > 21) {
-            StringBuilder message = new StringBuilder("Validation failed:");
-            if (!student.isValidName(student.name)) {
-                message.append(student.name+" Name should not contain numbers or special symbols.");
-            }
-            if (student.age < 15 || student.age > 21) {
-                message.append(student.age +" Age should be between 15 and 21.");
-            }
-            throw new CustomValidationException(message.toString());
+            // Example of creating a student with invalid name (contains numbers)
+           // Student invalidNameStudent = new Student(3, "Alice123", 19, "Physics");
+
+        }  catch (AgeNotWithinRangeException e) {
+            // Handle AgeNotWithinRangeException here
+            System.out.println("AgeNotWithinRangeException: " + e.getMessage());
+        } catch (NameNotValidException e) {
+            // Handle NameNotValidException here
+            System.out.println("NameNotValidException: " + e.getMessage());
         }
     }
 }
